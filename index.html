@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LearnVue</title>
+</head>
+
+<body>
+    <h1>axios拦截响应</h1>
+    <p>请用http-server做本地服务器，然后打开页面，看控制台</p>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // axios拦截响应
+        axios.interceptors.response.use(function (response) {
+            response.data = {
+                'name': 'sakura'
+            }
+            return response;
+        })
+
+        // axios发起请求
+        axios.get('/books/1') // 服务器上必须要有请求的内容/books/1，不然404，导致上面的拦截响应也失败。
+            .then(function (response) {
+                console.log('请求成功，服务器有请求的内容，你可以用axios拦截响应')
+                console.log(response);
+            }, function (response) {
+                console.log('请求失败，服务器没有请求的内容，下面是响应内容')
+                console.log(response);
+            })
+        axios.get('/books/2') // 由于服务器上司没/books/2，没有响应，更无从拦截。
+            .then(function (response) {
+                console.log('请求成功，服务器有请求的内容，你可以用axios拦截响应')
+                console.log(response);
+            }, function (response) {
+                console.log('请求失败，服务器没有请求的内容，下面是响应内容')
+                console.log(response);
+            })
+    </script>
+</body>
+
+</html>
